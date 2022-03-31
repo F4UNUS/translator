@@ -12,11 +12,12 @@
 Исходники залить на github в публичный репозиторий
 
 ## Требования к реализации
-Код вести в gihub, gitlab
-Java /kotlin
-spring boot
-rest-service, json на вход, json на выход
-inmemory database (h2 + console)/sqlLite
-вызов стороннего REST или SOAP-сервиса
-Плюсом будет использование многопоточности для перевода слов но не больше 10 потоков
-Плюсом будет размещение приложения на https://www.heroku.com/
+- Код вести в gihub, gitlab
+- Java /kotlin
+- spring boot
+- rest-service, json на вход, json на выход
+- inmemory database (h2 + console)/sqlLite
+- вызов стороннего REST или SOAP-сервиса
+## Дополнительные требования
+- Плюсом будет использование многопоточности для перевода слов но не больше 10 потоков
+- Плюсом будет размещение приложения на https://www.heroku.com
