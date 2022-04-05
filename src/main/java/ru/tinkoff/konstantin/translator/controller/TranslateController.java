@@ -29,8 +29,9 @@ public class TranslateController {
         try {
             responseEntity = ResponseEntity.ok(translateService.
                     translate(text, from, to));
-        } catch (HttpClientErrorException.BadRequest e) {
-            responseEntity = ResponseEntity.badRequest().
+        } catch (HttpClientErrorException e) {
+            responseEntity = ResponseEntity.
+                    status(e.getStatusCode()).
                     contentType(MediaType.APPLICATION_JSON).
                     body(e.getResponseBodyAsString());
         }

@@ -23,7 +23,7 @@ public class MicrosoftTranslateService implements TranslateService {
 
     @Override
     public List translate(Text text, String from, String to)
-            throws HttpClientErrorException.BadRequest {
+            throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(apiKeyHeaderName, apiKeyValue);
