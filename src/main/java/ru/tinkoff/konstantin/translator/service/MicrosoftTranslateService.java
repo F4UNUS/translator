@@ -15,7 +15,8 @@ import java.util.List;
 @Service
 public class MicrosoftTranslateService implements TranslateService {
 
-    private static final String URL_FORMAT = "https://microsoft-translator-text.p.rapidapi.com/translate?from=%s&to=%s&api-version=3.0";
+    @Value("${api.url}")
+    private String urlFormat;
     @Value("${header.api.key.name}")
     private String apiKeyHeaderName;
     @Value("${header.api.key.value}")
@@ -30,6 +31,6 @@ public class MicrosoftTranslateService implements TranslateService {
         HttpEntity<List<Text>> request =
                 new HttpEntity<>(Parser.parse(text), headers);
         return (new RestTemplate()).postForObject(
-                String.format(URL_FORMAT, from, to), request, List.class);
+                String.format(urlFormat, from, to), request, List.class);
     }
 }
