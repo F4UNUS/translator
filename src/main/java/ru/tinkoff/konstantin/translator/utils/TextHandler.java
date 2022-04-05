@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TextHandler {
-    private static final String SEPARATOR = "[^\\p{L}\\d]+";
-    private static final String WORD = "[\\p{L}\\d]+";
+    private static final String SEPARATOR = "[^\\p{L}]+";
+    private static final String WORD = "[\\p{L}]+";
 
     private String translationFormat;
 
