@@ -2,14 +2,11 @@ package ru.tinkoff.konstantin.translator.model;
 
 import java.util.Objects;
 
-public class Translate {
+public class Translation {
     private String text;
     private String to;
 
-    public Translate() {
-    }
-
-    public Translate(String text, String to) {
+    public Translation(String text, String to) {
         this.text = text;
         this.to = to;
     }
@@ -34,7 +31,7 @@ public class Translate {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Translate that = (Translate) o;
+        Translation that = (Translation) o;
         return Objects.equals(text, that.text) && Objects.equals(to, that.to);
     }
 
@@ -45,7 +42,7 @@ public class Translate {
 
     @Override
     public String toString() {
-        return "Translate{" +
+        return "Translation{" +
                 "text='" + text + '\'' +
                 ", to='" + to + '\'' +
                 '}';

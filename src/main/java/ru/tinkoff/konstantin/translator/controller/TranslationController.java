@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import ru.tinkoff.konstantin.translator.model.Text;
-import ru.tinkoff.konstantin.translator.service.TranslateService;
+import ru.tinkoff.konstantin.translator.service.TranslationService;
 
 @RestController
-public class TranslateController {
+public class TranslationController {
 
-    private TranslateService translateService;
+    private TranslationService translationService;
 
-    public TranslateController(
-            @Autowired TranslateService translationService) {
-        this.translateService = translationService;
+    public TranslationController(
+            @Autowired TranslationService translationService) {
+        this.translationService = translationService;
     }
 
     @PostMapping("/translate")
@@ -27,7 +27,7 @@ public class TranslateController {
                                 @RequestParam String to) {
         ResponseEntity responseEntity;
         try {
-            responseEntity = ResponseEntity.ok(translateService.
+            responseEntity = ResponseEntity.ok(translationService.
                     translate(text, from, to));
         } catch (HttpClientErrorException e) {
             responseEntity = ResponseEntity.
