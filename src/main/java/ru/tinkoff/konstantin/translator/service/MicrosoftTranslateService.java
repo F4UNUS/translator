@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ru.tinkoff.konstantin.translator.model.Text;
 import ru.tinkoff.konstantin.translator.utils.Parser;
@@ -21,7 +22,8 @@ public class MicrosoftTranslateService implements TranslateService {
     private String apiKeyValue;
 
     @Override
-    public List translate(Text text, String from, String to) {
+    public List translate(Text text, String from, String to)
+            throws HttpClientErrorException.BadRequest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(apiKeyHeaderName, apiKeyValue);
