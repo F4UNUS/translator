@@ -1,10 +1,10 @@
 package ru.tinkoff.konstantin.translator.service;
 
 import ru.tinkoff.konstantin.translator.model.Text;
-import ru.tinkoff.konstantin.translator.model.Translation;
+import ru.tinkoff.konstantin.translator.model.TranslationWrapper;
 
 import java.util.List;
 
 public interface TranslationService {
-    List<Translation> translate(Text text, String from, String to);
+    List<TranslationWrapper> translate(List<Text> words, String from, String to);
 }

@@ -1,5 +1,6 @@
-package ru.tinkoff.konstantin.translator.utils;
+package ru.tinkoff.konstantin.translator.service;
 
+import org.springframework.stereotype.Service;
 import ru.tinkoff.konstantin.translator.model.Text;
 import ru.tinkoff.konstantin.translator.model.Translation;
 import ru.tinkoff.konstantin.translator.model.TranslationWrapper;
@@ -9,13 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TextHandler {
+@Service
+public class TextHandlingService {
     private static final String SEPARATOR = "[^\\p{L}]+";
     private static final String WORD = "[\\p{L}]+";
 
     private String translationFormat;
 
-    public TextHandler() {
+    public TextHandlingService() {
         translationFormat = new String();
     }
 
@@ -25,10 +27,10 @@ public class TextHandler {
                 collect(Collectors.toList());
     }
 
-    public List<Translation> concat(TranslationWrapper[] translatedWords) {
+    public List<Translation> concat(List<TranslationWrapper> translatedWords) {
         List<Translation> translatedTexts = new ArrayList<>();
         int translationLanguageCount =
-                translatedWords[0].getTranslations().size();
+                translatedWords.get(0).getTranslations().size();
         for (int i = 0; i < translationLanguageCount; i++) {
             List<String> oneLanguageWords = new ArrayList<>();
             for (TranslationWrapper translatedWord : translatedWords) {
@@ -37,7 +39,7 @@ public class TextHandler {
             }
             translatedTexts.add(new Translation(String.format(
                     translationFormat, oneLanguageWords.toArray()),
-                    translatedWords[0].getTranslations().get(i).getTo()));
+                    translatedWords.get(0).getTranslations().get(i).getTo()));
         }
         return translatedTexts;
     }

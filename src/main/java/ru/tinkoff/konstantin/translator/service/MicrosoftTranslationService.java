@@ -9,10 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ru.tinkoff.konstantin.translator.model.Text;
-import ru.tinkoff.konstantin.translator.model.Translation;
 import ru.tinkoff.konstantin.translator.model.TranslationWrapper;
-import ru.tinkoff.konstantin.translator.utils.TextHandler;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,19 +25,14 @@ public class MicrosoftTranslationService implements TranslationService {
     private String apiKeyValue;
 
     @Override
-    public List<Translation> translate(Text text, String from, String to)
+    public List<TranslationWrapper> translate(List<Text> words, String from, String to)
             throws HttpClientErrorException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(apiKeyHeaderName, apiKeyValue);
-        TextHandler textHandler = new TextHandler();
-        HttpEntity<List<Text>> request =
-                new HttpEntity<>(textHandler.parseToWords(text), headers);
+        HttpEntity<List<Text>> request = new HttpEntity<>(words, headers);
         String body = (new RestTemplate()).postForObject(
                 String.format(uriFormat, from, to), request, String.class);
-        Gson gson = new Gson();
-        TranslationWrapper[] translationWords =
-                gson.fromJson(body, TranslationWrapper[].class);
-        return textHandler.concat(translationWords);
+        return Arrays.asList((new Gson()).fromJson(body, TranslationWrapper[].class));
     }
 }

@@ -8,17 +8,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
+import ru.tinkoff.konstantin.translator.entity.RequestEntity;
 import ru.tinkoff.konstantin.translator.model.Text;
+import ru.tinkoff.konstantin.translator.model.Translation;
+import ru.tinkoff.konstantin.translator.model.TranslationWrapper;
+import ru.tinkoff.konstantin.translator.service.RequestService;
+import ru.tinkoff.konstantin.translator.service.TextHandlingService;
+import ru.tinkoff.konstantin.translator.service.TranslatedWordsService;
 import ru.tinkoff.konstantin.translator.service.TranslationService;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class TranslationController {
 
     private TranslationService translationService;
+    private TextHandlingService textHandlerService;
+    private RequestService requestService;
+    private TranslatedWordsService translatedWordsService;
+    private HttpServletRequest httpServletRequest;
 
-    public TranslationController(
-            @Autowired TranslationService translationService) {
+    @Autowired
+    public TranslationController(TranslationService translationService,
+                                 TextHandlingService textHandlerService,
+                                 RequestService requestService,
+                                 TranslatedWordsService translatedWordsService,
+                                 HttpServletRequest httpServletRequest) {
         this.translationService = translationService;
+        this.textHandlerService = textHandlerService;
+        this.requestService = requestService;
+        this.translatedWordsService = translatedWordsService;
+        this.httpServletRequest = httpServletRequest;
     }
 
     @PostMapping("/translate")
@@ -27,13 +48,22 @@ public class TranslationController {
                                 @RequestParam String to) {
         ResponseEntity responseEntity;
         try {
-            responseEntity = ResponseEntity.ok(translationService.
-                    translate(text, from, to));
+            List<TranslationWrapper> translatedWords =
+                    translationService.translate(
+                            textHandlerService.parseToWords(text), from, to);
+            List<Translation> translations =
+                    textHandlerService.concat(translatedWords);
+            responseEntity = ResponseEntity.ok(translations);
+            RequestEntity requestEntity = requestService.create(
+                    text, from, to, translations.toString());
+            translatedWordsService.create(translatedWords, requestEntity);
         } catch (HttpClientErrorException e) {
+            String body = e.getResponseBodyAsString();
             responseEntity = ResponseEntity.
                     status(e.getStatusCode()).
                     contentType(MediaType.APPLICATION_JSON).
-                    body(e.getResponseBodyAsString());
+                    body(body);
+            requestService.create(text, from, to, body);
         }
         return responseEntity;
     }
