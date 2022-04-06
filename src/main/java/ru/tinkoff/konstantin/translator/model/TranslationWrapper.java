@@ -3,10 +3,10 @@ package ru.tinkoff.konstantin.translator.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Translations {
+public class TranslationWrapper {
     private List<Translation> translations;
 
-    public Translations(List<Translation> translations) {
+    public TranslationWrapper(List<Translation> translations) {
         this.translations = translations;
     }
 
@@ -22,7 +22,7 @@ public class Translations {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Translations that = (Translations) o;
+        TranslationWrapper that = (TranslationWrapper) o;
         return Objects.equals(translations, that.translations);
     }
 
@@ -33,7 +33,7 @@ public class Translations {
 
     @Override
     public String toString() {
-        return "Translations{" +
+        return "TranslationWrapper{" +
                 "translations=" + translations +
                 '}';
     }

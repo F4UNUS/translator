@@ -2,7 +2,7 @@ package ru.tinkoff.konstantin.translator.utils;
 
 import ru.tinkoff.konstantin.translator.model.Text;
 import ru.tinkoff.konstantin.translator.model.Translation;
-import ru.tinkoff.konstantin.translator.model.Translations;
+import ru.tinkoff.konstantin.translator.model.TranslationWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,18 +25,20 @@ public class TextHandler {
                 collect(Collectors.toList());
     }
 
-    public List<Translation> concat( Translations[] translations) {
-        List<Translation> translationTexts = new ArrayList<>();
-        for (int i = 0; i < translations[0].getTranslations().size(); i++) {
-            List<String> words = new ArrayList<>();
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Translations trans : translations) {
-                stringBuilder.append(trans.getTranslations().get(i).getText());
-                stringBuilder.append(" ");
-                words.add(trans.getTranslations().get(i).getText());
+    public List<Translation> concat(TranslationWrapper[] translatedWords) {
+        List<Translation> translatedTexts = new ArrayList<>();
+        int translationLanguageCount =
+                translatedWords[0].getTranslations().size();
+        for (int i = 0; i < translationLanguageCount; i++) {
+            List<String> oneLanguageWords = new ArrayList<>();
+            for (TranslationWrapper translatedWord : translatedWords) {
+                oneLanguageWords.add(
+                        translatedWord.getTranslations().get(i).getText());
             }
-            translationTexts.add(new Translation(String.format(translationFormat, words.toArray()), translations[0].getTranslations().get(i).getTo()));
+            translatedTexts.add(new Translation(String.format(
+                    translationFormat, oneLanguageWords.toArray()),
+                    translatedWords[0].getTranslations().get(i).getTo()));
         }
-        return translationTexts;
+        return translatedTexts;
     }
 }

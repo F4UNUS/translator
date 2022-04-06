@@ -10,7 +10,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ru.tinkoff.konstantin.translator.model.Text;
 import ru.tinkoff.konstantin.translator.model.Translation;
-import ru.tinkoff.konstantin.translator.model.Translations;
+import ru.tinkoff.konstantin.translator.model.TranslationWrapper;
 import ru.tinkoff.konstantin.translator.utils.TextHandler;
 
 import java.util.List;
@@ -37,7 +37,8 @@ public class MicrosoftTranslationService implements TranslationService {
         String body = (new RestTemplate()).postForObject(
                 String.format(uriFormat, from, to), request, String.class);
         Gson gson = new Gson();
-        Translations[] translations = gson.fromJson(body, Translations[].class);
-        return textHandler.concat(translations);
+        TranslationWrapper[] translationWords =
+                gson.fromJson(body, TranslationWrapper[].class);
+        return textHandler.concat(translationWords);
     }
 }
