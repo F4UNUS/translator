@@ -18,11 +18,11 @@ import java.util.List;
 @Service
 public class MicrosoftTranslationService implements TranslationService {
 
-    @Value("${api.uri}")
+    @Value("${api.microsoft.uri}")
     private String uriFormat;
-    @Value("${header.api.key.name}")
+    @Value("${header.api.microsoft.key.name}")
     private String apiKeyHeaderName;
-    @Value("${header.api.key.value}")
+    @Value("${header.api.microsoft.key.value}")
     private String apiKeyValue;
 
     @Override
