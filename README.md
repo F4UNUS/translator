@@ -33,7 +33,7 @@ https://konstanin-translator.herokuapp.com/translate
 - `from` - это язык с которого нужно перевести, он может быть только 1
 - `to` - это языки на которые нужно перевести их может быть несколько
 
-__Пример url:__ `https://konstanin-translator.herokuapp.com/translate?from=en&to=ru,de,fr,it,ro`
+__Пример uri:__ `https://konstanin-translator.herokuapp.com/translate?from=en&to=ru,de,fr,it,ro`
 
 Тело запроса должно содержать `JSON` следующего формата:
 ``` json
