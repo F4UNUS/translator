@@ -23,6 +23,8 @@ public class MicrosoftTranslationService implements TranslationService {
     private String apiKeyHeaderName;
     @Value("${header.api.microsoft.key.value}")
     private String apiKeyValue;
+    @Value("${api.microsoft.version}")
+    private String apiVersion;
 
     @Override
     public List<TranslationWrapper> translate(List<Text> words, String from, String to)
@@ -31,8 +33,9 @@ public class MicrosoftTranslationService implements TranslationService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.add(apiKeyHeaderName, apiKeyValue);
         HttpEntity<List<Text>> request = new HttpEntity<>(words, headers);
+        System.out.println(String.format(uriFormat, from, to, apiVersion));
         String body = (new RestTemplate()).postForObject(
-                String.format(uriFormat, from, to), request, String.class);
+                String.format(uriFormat, from, to, apiVersion), request, String.class);
         return Arrays.asList((new Gson()).fromJson(body, TranslationWrapper[].class));
     }
 }
