@@ -33,7 +33,9 @@ public class RequestEntity {
     public RequestEntity() {
     }
 
-    public RequestEntity(Long id, String input, String output, LocalDateTime time, String sourceLanguage, String targetLanguages, String ip) {
+    public RequestEntity(Long id, String input, String output,
+                         LocalDateTime time, String sourceLanguage,
+                         String targetLanguages, String ip) {
         this.id = id;
         this.input = input;
         this.output = output;
