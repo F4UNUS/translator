@@ -18,7 +18,7 @@ public class TextHandlingService {
     private String translationFormat;
 
     public TextHandlingService() {
-        translationFormat = new String();
+        translationFormat = "";
     }
 
     public List<Text> parseToWords(Text text) {

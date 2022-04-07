@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.tinkoff.konstantin.translator.entity.RequestEntity;
 import ru.tinkoff.konstantin.translator.model.Text;
 import ru.tinkoff.konstantin.translator.repository.RequestRepository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -19,18 +18,17 @@ public class RequestService {
         this.requestRepository = requestRepository;
     }
 
-    public RequestEntity create(Text input, String sourceLanguage, String targetLanguages, String output) {
+    public RequestEntity create(Text input, String sourceLanguage,
+                                String targetLanguages, String output,
+                                HttpServletRequest httpServletRequest) {
         RequestEntity requestEntity = new RequestEntity();
         requestEntity.setInput(input.getText());
         requestEntity.setSourceLanguage(sourceLanguage);
         requestEntity.setTargetLanguages(targetLanguages);
         requestEntity.setOutput(output);
         requestEntity.setTime(LocalDateTime.now());
+        requestEntity.setIp(httpServletRequest.getRemoteAddr());
         requestRepository.save(requestEntity);
         return requestEntity;
-    }
-
-    private String getClientIp(HttpServletRequest httpServletRequest){
-        throw new NotImplementedException();
     }
 }

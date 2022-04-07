@@ -1,5 +1,6 @@
 package ru.tinkoff.konstantin.translator.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,7 +14,13 @@ public class TranslatedWordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
+    @Column(name = "source_word")
+    private String sourceWord;
+    @Column(name = "source_language")
+    private String sourceLanguage;
+    @Column(name = "translated_word")
+    private String translatedWord;
+    @Column(name = "target_language")
     private String targetLanguage;
 
     @ManyToOne
@@ -23,9 +30,13 @@ public class TranslatedWordEntity {
     public TranslatedWordEntity() {
     }
 
-    public TranslatedWordEntity(Long id, String content, String targetLanguage, RequestEntity request) {
+    public TranslatedWordEntity(Long id, String sourceWord,
+                                String sourceLanguage, String targetWord,
+                                String targetLanguage, RequestEntity request) {
         this.id = id;
-        this.content = content;
+        this.sourceWord = sourceWord;
+        this.sourceLanguage = sourceLanguage;
+        this.translatedWord = targetWord;
         this.targetLanguage = targetLanguage;
         this.request = request;
     }
@@ -38,12 +49,28 @@ public class TranslatedWordEntity {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
+    public String getSourceWord() {
+        return sourceWord;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setSourceWord(String sourceWord) {
+        this.sourceWord = sourceWord;
+    }
+
+    public String getSourceLanguage() {
+        return sourceLanguage;
+    }
+
+    public void setSourceLanguage(String sourceLanguage) {
+        this.sourceLanguage = sourceLanguage;
+    }
+
+    public String getTranslatedWord() {
+        return translatedWord;
+    }
+
+    public void setTranslatedWord(String translatedWord) {
+        this.translatedWord = translatedWord;
     }
 
     public String getTargetLanguage() {
@@ -67,19 +94,21 @@ public class TranslatedWordEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TranslatedWordEntity that = (TranslatedWordEntity) o;
-        return Objects.equals(id, that.id) && Objects.equals(content, that.content) && Objects.equals(targetLanguage, that.targetLanguage) && Objects.equals(request, that.request);
+        return Objects.equals(id, that.id) && Objects.equals(sourceWord, that.sourceWord) && Objects.equals(sourceLanguage, that.sourceLanguage) && Objects.equals(translatedWord, that.translatedWord) && Objects.equals(targetLanguage, that.targetLanguage) && Objects.equals(request, that.request);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, content, targetLanguage, request);
+        return Objects.hash(id, sourceWord, sourceLanguage, translatedWord, targetLanguage, request);
     }
 
     @Override
     public String toString() {
         return "TranslatedWordEntity{" +
                 "id=" + id +
-                ", content='" + content + '\'' +
+                ", sourceWord='" + sourceWord + '\'' +
+                ", sourceLanguage='" + sourceLanguage + '\'' +
+                ", targetWord='" + translatedWord + '\'' +
                 ", targetLanguage='" + targetLanguage + '\'' +
                 ", request=" + request +
                 '}';

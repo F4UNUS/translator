@@ -48,22 +48,25 @@ public class TranslationController {
                                 @RequestParam String to) {
         ResponseEntity responseEntity;
         try {
+            List<Text> sourceWords = textHandlerService.parseToWords(text);
             List<TranslationWrapper> translatedWords =
-                    translationService.translate(
-                            textHandlerService.parseToWords(text), from, to);
+                    translationService.translate(sourceWords, from, to);
             List<Translation> translations =
                     textHandlerService.concat(translatedWords);
             responseEntity = ResponseEntity.ok(translations);
-            RequestEntity requestEntity = requestService.create(
-                    text, from, to, translations.toString());
-            translatedWordsService.create(translatedWords, requestEntity);
+            RequestEntity requestEntity =
+                    requestService.create(
+                            text, from, to, translations.toString(),
+                            httpServletRequest);
+            translatedWordsService.create(
+                    sourceWords, from, translatedWords, requestEntity);
         } catch (HttpClientErrorException e) {
             String body = e.getResponseBodyAsString();
             responseEntity = ResponseEntity.
                     status(e.getStatusCode()).
                     contentType(MediaType.APPLICATION_JSON).
                     body(body);
-            requestService.create(text, from, to, body);
+            requestService.create(text, from, to, body, httpServletRequest);
         }
         return responseEntity;
     }
